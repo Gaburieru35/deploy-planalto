@@ -21,7 +21,7 @@ public interface PedidoBebidaRepository extends JpaRepository<PedidoBebida, Inte
                    "JOIN bebida b ON b.idbebida = pb.idbebida " +
                    "join cliente c on c.idusuario = p.idusuario " +
                    "WHERE p.idusuario = :idUsuario " +
-                   "GROUP BY p.idpedido order by p.idpedido desc", 
+                   "GROUP BY p.idpedido, p.valorpedido, p.datapedido, c.nomecliente, p.statusPedido, p.br_code, c.ruacliente, c.bairrocliente, c.numerocliente order by p.idpedido desc", 
            nativeQuery = true) 
     List<Object[]> findListagemPorUsuarioEId(@Param("idUsuario") Long idUsuario);
 
@@ -33,7 +33,7 @@ public interface PedidoBebidaRepository extends JpaRepository<PedidoBebida, Inte
                    "JOIN pedido_bebida pb ON p.idpedido = pb.idpedido " +
                    "JOIN bebida b ON b.idbebida = pb.idbebida " +
                    "join cliente c on c.idusuario = p.idusuario " +
-                   "GROUP BY p.idpedido order by p.idpedido desc", 
+                   "GROUP BY p.idpedido, p.valorpedido, p.datapedido, c.nomecliente, p.statusPedido, p.br_code, c.ruacliente, c.bairrocliente, c.numerocliente order by p.idpedido desc", 
            nativeQuery = true) 
     List<Object[]> findListagem();
     
