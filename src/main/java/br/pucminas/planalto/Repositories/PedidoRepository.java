@@ -43,15 +43,16 @@ public interface PedidoRepository extends JpaRepository<Pedido, Integer> {
     List<Object[]> findPedidosPorStatusDoDia();
 
     @Query(value = """
-    SELECT u.emailusuario AS cliente, COALESCE(SUM(p.valorpedido), 0) AS totalValor
-    FROM pedido p
-    JOIN usuario u ON p.idusuario = u.idusuario
-    WHERE EXTRACT(MONTH FROM p.datapedido) = EXTRACT(MONTH FROM CURRENT_DATE)
-      AND EXTRACT(YEAR FROM p.datapedido) = EXTRACT(YEAR FROM CURRENT_DATE)
-    GROUP BY u.emailusuario
-    ORDER BY totalValor DESC
-    """, nativeQuery = true)
-    List<Object[]> findTopClientesPorValorPedidoMes();
+      SELECT u.emailusuario AS cliente, 
+             COALESCE(SUM(p.valorpedido), 0) AS totalValor
+      FROM pedido p
+      JOIN usuario u ON p.idusuario = u.idusuario
+      WHERE EXTRACT(MONTH FROM p.datapedido) = EXTRACT(MONTH FROM CURRENT_DATE)
+        AND EXTRACT(YEAR FROM p.datapedido) = EXTRACT(YEAR FROM CURRENT_DATE)
+      GROUP BY u.emailusuario
+      ORDER BY totalValor DESC
+      """, nativeQuery = true)
+  List<Object[]> findTopClientesPorValorPedidoMes();
 
     @Query(value = """
         SELECT COALESCE(AVG(p.valorpedido), 0)

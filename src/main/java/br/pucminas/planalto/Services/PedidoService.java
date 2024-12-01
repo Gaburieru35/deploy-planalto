@@ -148,18 +148,18 @@ public class PedidoService {
         List<Object[]> resultados = pedidoRepository.findPedidosPorStatusDoDia();
 
         Map<String, Integer> pedidosPorStatus = new HashMap<>();
-        pedidosPorStatus.put("Pendente", 0);
-        pedidosPorStatus.put("Entregue", 0);
-        pedidosPorStatus.put("Cancelado", 0);
+        pedidosPorStatus.put("Aguardando pagamento", 0);
+        pedidosPorStatus.put("Pago", 0);
+        pedidosPorStatus.put("Finalizado", 0);
 
         for (Object[] resultado : resultados) {
             int status = ((Number) resultado[0]).intValue();
             int total = ((Number) resultado[1]).intValue();
 
             switch (status) {
-                case 1 -> pedidosPorStatus.put("Pendente", total);
-                case 2 -> pedidosPorStatus.put("Entregue", total);
-                case 3 -> pedidosPorStatus.put("Cancelado", total);
+                case 1 -> pedidosPorStatus.put("Aguardando pagamento", total);
+                case 2 -> pedidosPorStatus.put("Pago", total);
+                case 3 -> pedidosPorStatus.put("Finalizado", total);
             }
         }
 
