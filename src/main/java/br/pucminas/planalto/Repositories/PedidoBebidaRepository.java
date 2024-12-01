@@ -14,7 +14,7 @@ import br.pucminas.planalto.Model.Listagens.ListagemPedidoModel;
 
 public interface PedidoBebidaRepository extends JpaRepository<PedidoBebida, Integer> {
     @Query(value = "SELECT p.idpedido, p.valorpedido, " +
-                   "GROUP_CONCAT(CONCAT(b.nomebebida, ' x', pb.quantidade) SEPARATOR ', ') AS bebidas, " +
+                   "STRING_AGG(CONCAT(b.nomebebida, ' x', pb.quantidade), ', ') AS bebidas, " +
                    "p.datapedido, c.nomecliente, p.statusPedido, p.br_code " +
                    "FROM pedido p " +
                    "JOIN pedido_bebida pb ON p.idpedido = pb.idpedido " +
@@ -26,7 +26,7 @@ public interface PedidoBebidaRepository extends JpaRepository<PedidoBebida, Inte
     List<Object[]> findListagemPorUsuarioEId(@Param("idUsuario") Long idUsuario);
 
     @Query(value = "SELECT p.idpedido, p.valorpedido, " +
-                   "GROUP_CONCAT(CONCAT(b.nomebebida, ' x', pb.quantidade) SEPARATOR ', ') AS bebidas, " +
+                   "STRING_AGG(CONCAT(b.nomebebida, ' x', pb.quantidade), ', ') AS bebidas, " +
                    "p.datapedido, c.nomecliente, p.statusPedido, p.br_code, " +
                    "CONCAT('Rua ', c.ruacliente, ', ', c.bairrocliente, ', ', c.numerocliente) AS enderecoCliente " +
                    "FROM pedido p " +
