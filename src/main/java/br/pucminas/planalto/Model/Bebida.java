@@ -50,7 +50,7 @@ public class Bebida implements Serializable{
     //foto
     @Nonnull
     @Lob
-    @Column(name = "foto", nullable = false, columnDefinition="MEDIUMTEXT")
+    @Column(name = "foto", nullable = false)
     private String foto;
 
     @ManyToOne
