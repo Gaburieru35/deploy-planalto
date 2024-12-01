@@ -52,6 +52,14 @@ public class UsuarioService {
         return this.usuarioRepository.save(newUsuario);
     }
 
+    @Transactional
+    public Usuario updateTipo(Usuario u){
+        Usuario newUsuario = findById(u.getId());
+        newUsuario.setTipo(u.getTipo());
+
+        return this.usuarioRepository.save(newUsuario);
+    }
+
     public void delete(Integer id){
         Usuario u = findById(id);
         try{

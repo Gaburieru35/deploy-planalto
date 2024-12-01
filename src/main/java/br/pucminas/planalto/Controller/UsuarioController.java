@@ -56,6 +56,13 @@ public class UsuarioController {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("/tipo/{id}")
+    public ResponseEntity<Void> updateTipo(@RequestBody Usuario u, @PathVariable Integer id){
+        u.setId(id);
+        this.usuarioService.updateTipo(u);
+        return ResponseEntity.noContent().build();
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Usuario> findById(@PathVariable Integer id){
         Usuario u = this.usuarioService.findById(id);
