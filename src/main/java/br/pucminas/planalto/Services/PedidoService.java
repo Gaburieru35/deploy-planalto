@@ -169,11 +169,11 @@ public class PedidoService {
     public Map<String, Double> obterTopClientesPorValorPedidoMes() {
         List<Object[]> resultados = pedidoRepository.findTopClientesPorValorPedidoMes();
 
-        Map<String, Double> topClientes = new HashMap<>();
+        Map<String, Double> topClientes = new LinkedHashMap<>();
         for (Object[] resultado : resultados) {
             String cliente = (String) resultado[0];
-            BigDecimal totalValor = (BigDecimal) resultado[1];
-            topClientes.put(cliente, totalValor.doubleValue());
+            Double totalValor = ((Number) resultado[1]).doubleValue(); // Conversão segura para Double
+            topClientes.put(cliente, totalValor);
         }
 
         return topClientes;

@@ -43,16 +43,16 @@ public interface PedidoRepository extends JpaRepository<Pedido, Integer> {
     List<Object[]> findPedidosPorStatusDoDia();
 
     @Query(value = """
-      SELECT u.emailusuario AS cliente, 
-             COALESCE(SUM(p.valorpedido), 0) AS totalValor
-      FROM pedido p
-      JOIN usuario u ON p.idusuario = u.idusuario
-      WHERE EXTRACT(MONTH FROM p.datapedido) = EXTRACT(MONTH FROM CURRENT_DATE)
-        AND EXTRACT(YEAR FROM p.datapedido) = EXTRACT(YEAR FROM CURRENT_DATE)
-      GROUP BY u.emailusuario
-      ORDER BY totalValor DESC
-      """, nativeQuery = true)
-  List<Object[]> findTopClientesPorValorPedidoMes();
+    SELECT c.nomecliente AS nome, COALESCE(SUM(p.valorpedido), 0) AS totalValor
+    FROM pedido p
+    JOIN usuario u ON p.idusuario = u.idusuario
+    JOIN cliente c ON c.idusuario = u.idusuario
+    WHERE EXTRACT(MONTH FROM p.datapedido) = EXTRACT(MONTH FROM CURRENT_DATE)
+      AND EXTRACT(YEAR FROM p.datapedido) = EXTRACT(YEAR FROM CURRENT_DATE)
+    GROUP BY c.nomecliente
+    ORDER BY totalValor DESC
+    """, nativeQuery = true)
+    List<Object[]> findTopClientesPorValorPedidoMes();
 
     @Query(value = """
         SELECT COALESCE(AVG(p.valorpedido), 0)
@@ -63,15 +63,14 @@ public interface PedidoRepository extends JpaRepository<Pedido, Integer> {
     Double findTicketMedioPedidosMes();
 
     @Query(value = """
-        SELECT b.nomebebida AS bebida, COALESCE(SUM(pb.quantidade), 0) AS totalVendas
-        FROM pedido p
-        JOIN pedido_bebida pb ON p.idpedido = pb.idpedido
-        JOIN bebida b ON pb.idbebida = b.idbebida
-        WHERE MONTH(p.datapedido) = MONTH(CURRENT_DATE) 
-          AND YEAR(p.datapedido) = YEAR(CURRENT_DATE)
-        GROUP BY b.nomebebida
-        ORDER BY totalVendas DESC
-        LIMIT 5
-        """, nativeQuery = true)
+    SELECT b.nomebebida AS bebida, COALESCE(SUM(pb.quantidade), 0) AS totalVendas
+    FROM pedido p
+    JOIN pedido_bebida pb ON p.idpedido = pb.idpedido
+    JOIN bebida b ON pb.idbebida = b.idbebida
+    WHERE EXTRACT(MONTH FROM p.datapedido) = EXTRACT(MONTH FROM CURRENT_DATE) 
+      AND EXTRACT(YEAR FROM p.datapedido) = EXTRACT(YEAR FROM CURRENT_DATE)
+    GROUP BY b.nomebebida
+    ORDER BY totalVendas DESC
+    """, nativeQuery = true)
     List<Object[]> findBebidasMaisVendidasMes();
 }
