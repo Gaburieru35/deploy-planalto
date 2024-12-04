@@ -16,15 +16,15 @@ public interface PedidoRepository extends JpaRepository<Pedido, Integer> {
     @Query(value = "SELECT * FROM Pedido WHERE idusuario = :id", nativeQuery = true)
     Optional<List<Pedido>> findByIdCliente(@Param("id") Integer id);
 
-    @Query(value = """ 
-      SELECT EXTRACT(DOW FROM p.datapedido) AS diaSemana, 
-             SUM(p.valorpedido) AS totalValorPedidos
-      FROM pedido p
-      WHERE p.datapedido >= CURRENT_DATE - INTERVAL '7 days'
-      GROUP BY EXTRACT(DOW FROM p.datapedido)
-      ORDER BY diaSemana
-      """, nativeQuery = true)
-  List<Object[]> findTotalValorPedidosPorDiaSemanaUltimaSemana();
+    @Query(value = """
+    SELECT EXTRACT(DOW FROM p.datapedido) AS diaSemana, 
+           COALESCE(SUM(p.valorpedido), 0) AS totalValorPedidos
+    FROM pedido p
+    WHERE p.datapedido >= CURRENT_DATE - INTERVAL '7 days'
+    GROUP BY diaSemana
+    ORDER BY diaSemana
+    """, nativeQuery = true)
+    List<Object[]> findTotalValorPedidosPorDiaSemanaUltimaSemana();
 
 
     @Query(value = """

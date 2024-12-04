@@ -129,12 +129,21 @@ public class PedidoService {
 
         Map<String, Double> totalValorPorDia = new HashMap<>();
 
-        String[] diasSemana = { "Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado" };
+        String[] diasSemana = {"Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"};
+		
+		// Inicializa todos os dias com valor zero
+        for (String dia : diasSemana) {
+            totalValorPorDia.put(dia, 0.0);
+        }
 
         for (Object[] resultado : resultados) {
-            int diaSemana = ((Number) resultado[0]).intValue();
-            double totalValor = ((Number) resultado[1]).doubleValue();
-            totalValorPorDia.put(diasSemana[diaSemana - 1], totalValor);
+            if (resultado.length >= 2) {
+                int diaSemana = ((Number) resultado[0]).intValue(); // Índice do dia da semana
+                double totalValor = ((Number) resultado[1]).doubleValue(); // Valor total
+                if (diaSemana >= 0 && diaSemana < diasSemana.length) {
+                    totalValorPorDia.put(diasSemana[diaSemana], totalValor);
+                }
+            }
         }
 
         return totalValorPorDia;
