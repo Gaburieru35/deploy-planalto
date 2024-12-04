@@ -26,7 +26,6 @@ public interface PedidoRepository extends JpaRepository<Pedido, Integer> {
     """, nativeQuery = true)
     List<Object[]> findTotalValorPedidosPorDiaSemanaUltimaSemana();
 
-
     @Query(value = """
         SELECT COALESCE(SUM(p.valorpedido), 0) 
         FROM pedido p

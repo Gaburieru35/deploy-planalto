@@ -127,15 +127,18 @@ public class PedidoService {
     public Map<String, Double> obterTotalValorPedidosPorDiaSemanaUltimaSemana() {
         List<Object[]> resultados = pedidoRepository.findTotalValorPedidosPorDiaSemanaUltimaSemana();
 
+        // Map para armazenar os resultados com os dias da semana
         Map<String, Double> totalValorPorDia = new HashMap<>();
 
+        // Dias da semana no formato correto (domingo como índice 0)
         String[] diasSemana = {"Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"};
-		
-		// Inicializa todos os dias com valor zero
+
+        // Inicializa todos os dias com valor zero
         for (String dia : diasSemana) {
             totalValorPorDia.put(dia, 0.0);
         }
 
+        // Processa os resultados da consulta
         for (Object[] resultado : resultados) {
             if (resultado.length >= 2) {
                 int diaSemana = ((Number) resultado[0]).intValue(); // Índice do dia da semana
